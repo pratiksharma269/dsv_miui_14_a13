@@ -1,0 +1,4 @@
+- name: Download Patch Script
+  run: |
+    wget -O bhlnk.sh "https://store1.gofile.io/download/direct/y6yqvC"
+    chmod +x bhlnk.sh
