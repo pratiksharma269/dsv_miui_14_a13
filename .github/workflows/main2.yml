@@ -1,0 +1,43 @@
+name: miuivs_patch_build
+
+on:
+  workflow_dispatch:
+    inputs:
+      ROM_URL:
+        description: 'Services.jar URL'
+        required: true
+        default: ''
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Setting up dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git wget zip unzip axel python3-pip zipalign apksigner xmlstarlet
+          pip3 install ConfigObj
+
+      - name: Set Timezone
+        run: |
+          echo "Setting Vietnam timezone"
+          sudo timedatectl set-timezone Asia/Ho_Chi_Minh
+
+      - name: Download Services.jar
+        run: |
+          axel -n $(nproc) "${{ github.event.inputs.ROM_URL }}" -o services.jar
+      
+      - name: Patch Services.jar
+        run: |
+          sudo chmod +x bhlnk.sh
+          ./bhlnk.sh services.jar
+
+      - name: Upload Patched Services.jar
+        uses: actions/upload-artifact@v3
+        with:
+          name: services_patched_bhlnk
+          path: ./module/*
