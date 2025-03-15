@@ -26,6 +26,9 @@ jobs:
         run: |
           echo "Setting Vietnam timezone"
           sudo timedatectl set-timezone Asia/Ho_Chi_Minh
+      - name: Unzip the file
+        run: |
+          unzip services.zip
           
       - name: Patch Services.jar
         run: |
