@@ -27,10 +27,6 @@ jobs:
           echo "Setting Vietnam timezone"
           sudo timedatectl set-timezone Asia/Ho_Chi_Minh
           
-      - name: Download 
-        run: |
-          wget -O services.jar "https://store1.gofile.io/download/direct/y6yqvC"
-    
       - name: Patch Services.jar
         run: |
           sudo chmod +x bhlnk.sh
